@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Sistema Empleados</title>
+
+<link rel="stylesheet"
+href="estilos.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>
+Sistema Gestión de Empleados
+</h1>
+
+<div class="formulario">
+
+<h2>
+Registrar empleado
+</h2>
+
+<input
+id="nombre"
+placeholder="Nombre">
+
+<input
+id="apellido"
+placeholder="Apellido">
+
+<input
+id="puesto"
+placeholder="Puesto">
+
+<input
+id="salario"
+type="number"
+placeholder="Salario">
+
+<input
+id="departamento"
+placeholder="Departamento">
+
+<input
+id="fechaIngreso"
+type="date">
+
+<select id="estado">
+
+<option>
+Activo
+</option>
+
+<option>
+Inactivo
+</option>
+
+</select>
+
+<button>
+Guardar
+</button>
+
+</div>
+
+<h2>
+Lista empleados
+</h2>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+
+<th>Nombre</th>
+
+<th>Apellido</th>
+
+<th>Puesto</th>
+
+<th>Salario</th>
+
+<th>Departamento</th>
+
+<th>Estado</th>
+
+<th>Acciones</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tablaEmpleados">
+
+</tbody>
+
+</table>
+
+</div>
+
+<script src="empleados.js"></script>
+
+</body>
+
+</html>
