@@ -2,6 +2,7 @@ package main
 
 import (
 	"proyecto-empleados/database"
+	"proyecto-empleados/routes"
 
 	"github.com/gin-gonic/gin"
 )
@@ -12,14 +13,7 @@ func main() {
 
 	r := gin.Default()
 
-	r.GET("/", func(c *gin.Context) {
-
-		c.JSON(200, gin.H{
-			"mensaje":"Servidor funcionando",
-		})
-
-	})
+	routes.ConfigurarRutas(r)
 
 	r.Run(":8080")
-
 }

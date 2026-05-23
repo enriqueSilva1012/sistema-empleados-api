@@ -15,15 +15,21 @@ func ConectarDB() {
 
 	dsn := "root:@tcp(127.0.0.1:3306)/empleados_db?charset=utf8mb4&parseTime=True&loc=Local"
 
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(
+		mysql.Open(dsn),
+		&gorm.Config{},
+	)
 
 	if err != nil {
-		panic("Error al conectar BD")
-	}
 
-	fmt.Println("Base de datos conectada")
+		panic(err)
+
+	}
 
 	db.AutoMigrate(&models.Empleado{})
 
+	fmt.Println("Base conectada")
+
 	DB = db
+
 }
