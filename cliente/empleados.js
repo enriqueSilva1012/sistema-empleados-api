@@ -1,129 +1,172 @@
-const API="http://localhost:8080/empleados";
+const API="http://10.76.197.123:8080/empleados";
+
 
 async function cargarEmpleados(){
 
-const respuesta=
-await fetch(API);
+    try{
 
-const empleados=
-await respuesta.json();
+        const respuesta=
+        await fetch(API);
 
-const tabla=
-document.getElementById(
-"tablaEmpleados"
-);
+        const empleados=
+        await respuesta.json();
 
-tabla.innerHTML="";
+        const tabla=
+        document.getElementById(
+            "tablaEmpleados"
+        );
 
-empleados.forEach(
-empleado=>{
+        tabla.innerHTML="";
 
-tabla.innerHTML += `
 
-<tr>
+        empleados.forEach(
+        (empleado)=>{
 
-<td>${empleado.id}</td>
+            tabla.innerHTML+=`
 
-<td>${empleado.nombre}</td>
+            <tr>
 
-<td>${empleado.apellido}</td>
+            <td>
 
-<td>${empleado.puesto}</td>
+            ${empleado.ID}
 
-<td>${empleado.salario}</td>
+            </td>
 
-<td>${empleado.departamento}</td>
+            <td>
 
-<td>${empleado.estado}</td>
+            ${empleado.nombre}
 
-<td>
+            </td>
 
-<button>
-Editar
-</button>
+            <td>
 
-<button>
-Eliminar
-</button>
+            ${empleado.puesto}
 
-</td>
+            </td>
 
-</tr>
+            <td>
 
-`;
+            ${empleado.departamento}
 
-});
+            </td>
+
+            <td>
+
+            ${
+            empleado.fechaIngreso
+            ?.split("T")[0]
+            }
+
+            </td>
+
+            </tr>
+
+            `;
+
+        });
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+    }
 
 }
+
+
 
 async function guardarEmpleado(){
 
-const empleado={
 
-nombre:
-document.getElementById(
-"nombre"
-).value,
+    const empleado={
 
-apellido:
-document.getElementById(
-"apellido"
-).value,
+        nombre:
+        document.getElementById(
+            "nombre"
+        ).value,
 
-puesto:
-document.getElementById(
-"puesto"
-).value,
+        puesto:
+        document.getElementById(
+            "puesto"
+        ).value,
 
-salario:
-parseFloat(
-document.getElementById(
-"salario"
-).value
-),
+        departamento:
+        document.getElementById(
+            "departamento"
+        ).value,
 
-departamento:
-document.getElementById(
-"departamento"
-).value,
+        fechaIngreso:
+        document.getElementById(
+            "fechaIngreso"
+        ).value
+        +"T00:00:00Z"
 
-fechaIngreso:
-document.getElementById(
-"fechaIngreso"
-).value,
+    };
 
-estado:
-document.getElementById(
-"estado"
-).value
 
-};
+    try{
 
-await fetch(
-API,
-{
+        const respuesta=
+        await fetch(
+            API,
+            {
 
-method:"POST",
+            method:"POST",
 
-headers:{
+            headers:{
 
-"Content-Type":
-"application/json"
+            "Content-Type":
+            "application/json"
 
-},
+            },
 
-body:
-JSON.stringify(
-empleado
-)
+            body:
+            JSON.stringify(
+            empleado
+            )
+
+            }
+        );
+
+        const datos=
+        await respuesta.json();
+
+
+        if(
+        !respuesta.ok
+        ){
+
+            alert(
+            JSON.stringify(
+            datos
+            )
+            );
+
+            return;
+
+        }
+
+
+        alert(
+        "Registro exitoso"
+        );
+
+        cargarEmpleados();
+
+    }
+
+    catch(error){
+
+        console.log(
+        error
+        );
+
+    }
 
 }
 
-);
-
-cargarEmpleados();
-
-}
 
 document
 .getElementById(

@@ -1,0 +1,15 @@
+{
+  "name": "sistema-empleados",
+  "version": "1.0.0",
+  "description": "Sistema de registro de empleados",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Equipo",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^30.0.0",
+    "electron-packager": "^17.1.2"
+  }
+}

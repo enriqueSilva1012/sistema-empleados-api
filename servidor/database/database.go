@@ -2,7 +2,6 @@ package database
 
 import (
 	"fmt"
-
 	"proyecto-empleados/models"
 
 	"gorm.io/driver/mysql"
@@ -21,15 +20,12 @@ func ConectarDB() {
 	)
 
 	if err != nil {
-
 		panic(err)
-
 	}
 
 	db.AutoMigrate(&models.Empleado{})
 
-	fmt.Println("Base conectada")
+	fmt.Println("Base conectada correctamente")
 
 	DB = db
-
 }

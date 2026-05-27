@@ -33,4 +33,8 @@ func ConfigurarRutas(r *gin.Engine) {
 		controllers.EliminarEmpleado,
 	)
 
+	r.GET(
+		"/departamento/:departamento",
+		controllers.BuscarDepartamento,
+	)
 }

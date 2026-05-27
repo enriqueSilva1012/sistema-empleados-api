@@ -14,7 +14,6 @@ func ObtenerEmpleados(c *gin.Context) {
 	database.DB.Find(&empleados)
 
 	c.JSON(200, empleados)
-
 }
 
 func ObtenerEmpleado(c *gin.Context) {
@@ -23,10 +22,27 @@ func ObtenerEmpleado(c *gin.Context) {
 
 	var empleado models.Empleado
 
-	database.DB.First(&empleado, id)
+	result := database.DB.First(
+		&empleado,
+		id,
+	)
 
-	c.JSON(200, empleado)
+	if result.Error != nil {
 
+		c.JSON(
+			404,
+			gin.H{
+				"mensaje": "Empleado no encontrado",
+			},
+		)
+
+		return
+	}
+
+	c.JSON(
+		200,
+		empleado,
+	)
 }
 
 func CrearEmpleado(c *gin.Context) {
@@ -35,18 +51,22 @@ func CrearEmpleado(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&empleado); err != nil {
 
-		c.JSON(400, gin.H{
-			"error": err.Error(),
-		})
+		c.JSON(
+			400,
+			gin.H{
+				"error": err.Error(),
+			},
+		)
 
 		return
-
 	}
 
 	database.DB.Create(&empleado)
 
-	c.JSON(201, empleado)
-
+	c.JSON(
+		201,
+		empleado,
+	)
 }
 
 func ActualizarEmpleado(c *gin.Context) {
@@ -55,16 +75,39 @@ func ActualizarEmpleado(c *gin.Context) {
 
 	var empleado models.Empleado
 
-	database.DB.First(&empleado, id)
+	database.DB.First(
+		&empleado,
+		id,
+	)
+
+	if empleado.ID == 0 {
+
+		c.JSON(
+			404,
+			gin.H{
+				"mensaje": "Empleado no encontrado",
+			},
+		)
+
+		return
+	}
 
 	var datos models.Empleado
 
-	c.ShouldBindJSON(&datos)
+	c.ShouldBindJSON(
+		&datos,
+	)
 
-	database.DB.Model(&empleado).Updates(datos)
+	database.DB.Model(
+		&empleado,
+	).Updates(
+		datos,
+	)
 
-	c.JSON(200, empleado)
-
+	c.JSON(
+		200,
+		empleado,
+	)
 }
 
 func EliminarEmpleado(c *gin.Context) {
@@ -73,9 +116,26 @@ func EliminarEmpleado(c *gin.Context) {
 
 	var empleado models.Empleado
 
-	database.DB.First(&empleado, id)
+	database.DB.First(
+		&empleado,
+		id,
+	)
 
-	database.DB.Delete(&empleado)
+	if empleado.ID == 0 {
+
+		c.JSON(
+			404,
+			gin.H{
+				"mensaje": "Empleado no encontrado",
+			},
+		)
+
+		return
+	}
+
+	database.DB.Delete(
+		&empleado,
+	)
 
 	c.JSON(
 		200,
@@ -83,5 +143,29 @@ func EliminarEmpleado(c *gin.Context) {
 			"mensaje": "Empleado eliminado",
 		},
 	)
+}
 
+// Caso de uso restante:
+func BuscarDepartamento(c *gin.Context) {
+
+	departamento :=
+		c.Param(
+			"departamento",
+		)
+
+	var empleados []models.Empleado
+
+	database.DB.
+		Where(
+			"departamento=?",
+			departamento,
+		).
+		Find(
+			&empleados,
+		)
+
+	c.JSON(
+		200,
+		empleados,
+	)
 }
